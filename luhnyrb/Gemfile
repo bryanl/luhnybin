@@ -1,0 +1,10 @@
+source "http://rubygems.org"
+
+# Specify your gem's dependencies in luhnyrb.gemspec
+gemspec
+
+group :test do
+  gem 'guard-minitest'
+  gem 'rb-fsevent'
+  gem 'growl_notify'
+end
