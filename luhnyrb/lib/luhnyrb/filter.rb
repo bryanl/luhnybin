@@ -9,17 +9,23 @@ module Luhnyrb
 
     def filter(text)
       line = text.chomp
-      newtext = if line =~ %r{^\d{14}$}
-                  validate_string(line, 14)
-                elsif line =~ %r{^\d{15}$}
-                  validate_string(line, 15)
-                elsif line =~ %r{^\d{16}$}
-                  validate_string(line, 16)
-                else
-                  line
-                end
+      extract_cards_with_no_spaces(line)
+    end
 
-      puts newtext
+    def extract_cards_with_no_spaces(line)
+
+      [16, 15, 14].each do |size|
+        chunker = Luhnyrb::Chunker.new(line)
+        while(chunk = chunker.chunk(size))
+          if chunk =~ /^\d+$/ && chunk.length == size
+            if @validator.validate chunk
+              return line.gsub!(/#{chunk}/, "X"*size)
+            end
+          end
+        end
+      end
+
+      line
     end
 
     def validate_string(string, size)
