@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/luhnyrb'
+
+filter = Luhnyrb::Filter.new
+
+$stdin.each_line do |line|
+  filter.filter line
+end
+
+

@@ -1,5 +1,6 @@
-require "luhnyrb/version"
+require_relative "luhnyrb/version"
+require_relative "luhnyrb/filter"
+require_relative "luhnyrb/validator"
 
 module Luhnyrb
-  # Your code goes here...
 end
