@@ -44,10 +44,40 @@ describe Luhnyrb::Filter do
     filter.filter(text).must_equal("12XXXXXXXXXXXXXX")
   end
 
+  it "filters a 16 digit # delimited with ' '" do
+    filter = Luhnyrb::Filter.new
+    text = "4352 7211 4223 5131\n"
+    filter.filter(text).must_equal("XXXX XXXX XXXX XXXX")
+  end
+
+  it "filters a 16 digit # delimited with ' '" do
+    filter = Luhnyrb::Filter.new
+    text = "7288-8379-3639-2755\n"
+    filter.filter(text).must_equal("XXXX-XXXX-XXXX-XXXX")
+  end
+
+  it "filters multiple cards" do
+    filter = Luhnyrb::Filter.new
+    text = "7288-8379-3639-2755 4352 7211 4223 5131\n"
+    filter.filter(text).must_equal("XXXX-XXXX-XXXX-XXXX XXXX XXXX XXXX XXXX")
+  end
+
   it "doesn't filter unknown text" do
     filter = Luhnyrb::Filter.new
     text = "foo bar baz\n"
     filter.filter(text).must_equal("foo bar baz")
+  end
+
+  it "filters a sequence of zeros" do
+    filter = Luhnyrb::Filter.new
+    text = "0" * 1000
+    filter.filter(text).must_equal("X"*1000)
+  end
+
+  it "preserves line feeds" do
+    filter = Luhnyrb::Filter.new
+    text = "LF only ->\n<- LF only\n"
+    filter.filter(text).must_equal("LF only ->\n<- LF only")
   end
 
 end
